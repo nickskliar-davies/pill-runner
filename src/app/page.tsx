@@ -5,54 +5,74 @@ import Image from "next/image";
 import { useState } from 'react';
 import styles from "./page.module.css";
 
-const pillScript = "./pills/arbitraryconsolelog.js";
-
+const scriptLocation = "./pills/arbitraryconsolelog.js";
 
 export default function PillRunner() {
-  const [code, setCode] = useState('');
-
-  fetch(pillScript).then(
-    (result) => 
-      result.text().then(x => setCode(x))).catch((error) => console.error(error));
+  const [code, setCode] = useState<string>('');
+  const [result, setResult] = useState<string[]>([]);
+  const [pillScript, setPillScript] = useState<string>('');  
   
+  
+  if (pillScript){
+    fetch(pillScript)
+    .then(
+      (result) => 
+        result.text().then(x => setCode(x)))
+    .catch((error) => console.error(error));
+  }  
+  else {
+    setPillScript(scriptLocation);
+  }
+
+  console.log = (...args) => {
+    let logStatement = ''
+    args.forEach(arg => {
+      logStatement += `${arg},`;
+    });    
+
+    setResult([...result, logStatement]);    
+    console.warn(logStatement);    
+    console.warn(result);
+  };  
 
   return (
     <main className={styles.main}>
+      <button onClick={(e) => {          
+          
+          setPillScript("");
+          setPillScript(scriptLocation);
+          }}>Result</button>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
         <div>
           <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            href="https://www.one-beyond.com/"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Argh{" "}
+          >            
             <Image
-              src="/vercel.svg"
+              src="/logo-2023-animated@1x.webp"
               alt="Vercel Logo"
               className={styles.vercelLogo}
-              width={100}
-              height={24}
+              width={210}
+              height={82}
               priority
             />
           </a>
         </div>
       </div>
-      <pre>{code}</pre>
-      <Script src={pillScript} />
+      <div className={styles.center}>
+        <pre>{code}</pre>
+        <Script src={scriptLocation} strategy="lazyOnload" />
+      </div>
+      
       
       <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+        
+        <div>        
+        {result.map((val: string, index: number) => (
+            <p key={`val-${index}`}>{val}</p>
+        ))}                
+        </div>                
       </div>
 
       <div className={styles.grid}>

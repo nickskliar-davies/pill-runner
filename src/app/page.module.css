@@ -81,8 +81,24 @@
   padding: 4rem 0;
 }
 
+.center p {
+  display: block;
+  background: black;
+  color: chartreuse;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.center pre {
+  background: white;
+  color: black;
+  padding: 10px;
+}
+
+.center h1 {
+  padding: 20px;
+}
+
 .center::before {
-  background: var(--secondary-glow);
   border-radius: 50%;
   width: 480px;
   height: 360px;
