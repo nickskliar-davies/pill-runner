@@ -3,59 +3,74 @@
 import Image from "next/image";
 import { useState } from 'react';
 import styles from "./page.module.css";
+import Markdown from "react-markdown";
 
-const scriptLocations = ["./pills/arbitraryconsolelog.js"
-  ,"./pills/Array.prototype.every/index.js"
-  ,"./pills/async-await-iterations/index.js"
-  ,"./pills/check-conditions/index.js"
-  ,"./pills/check-variables-with-and-operator/index.js"
-  ,"./pills/clone-objects/index.js"
-  ,"./pills/compose/index.js"
-  ,"./pills/console-explained/index.js"
-  ,"./pills/currying/index.js"
-  ,"./pills/dedupe-arrays/index.js"
-  ,"./pills/DefaultValues/index.js"
-  ,"./pills/falsy-values/index.js"
-  ,"./pills/in-operator/index.js"
-  ,"./pills/map/index.js"
-  ,"./pills/merging-arrays/index.js"
-  ,"./pills/prevent-prototype-pollution/index.js"
-  ,"./pills/reduce/index.js"
-  ,"./pills/regular-expressions/index.js"
-  ,"./pills/replaceAll/index.js"
-  ,"./pills/semicolon-usage/index.js"
-  ,"./pills/short-circuit-conditionals/index.js"
-  ,"./pills/shuffle-array-elements/index.js"
-  ,"./pills/using-!!operator/index.js"  
+const scriptLocations = ["./pills/Array.prototype.every/"
+  ,"./pills/async-await-iterations/"
+  ,"./pills/check-conditions/"
+  ,"./pills/check-variables-with-and-operator/"
+  ,"./pills/clone-objects/"
+  ,"./pills/compose/"
+  ,"./pills/console-explained/"
+  ,"./pills/currying/"
+  ,"./pills/dedupe-arrays/"
+  ,"./pills/DefaultValues/"
+  ,"./pills/falsy-values/"
+  ,"./pills/in-operator/"
+  ,"./pills/map/"
+  ,"./pills/merging-arrays/"
+  ,"./pills/prevent-prototype-pollution/"
+  ,"./pills/reduce/"
+  ,"./pills/regular-expressions/"
+  ,"./pills/replaceAll/"
+  ,"./pills/semicolon-usage/"
+  ,"./pills/short-circuit-conditionals/"
+  ,"./pills/shuffle-array-elements/"
+  ,"./pills/using-!!operator/"  
 ];
 const externalArray: string[] = [];
 let scriptHasRun = false;
 let error = false;
+let mdError = false;
+
 export default function PillRunner() {
   const [code, setCode] = useState<string>('');
-  const [result, setResult] = useState<string[]>([]);  
-  const [pillScript, setPillScript] = useState<string>('');  
+  const [markdown, setMarkdown] = useState<string>('');
+  const [result, setResult] = useState<string[]>([]);    
   const [scriptIndex, setScriptIndex] = useState<number>(0);
   
-  if (pillScript == scriptLocations[scriptIndex]){
-    fetch(pillScript)
-    .then(
-      (result) => {
-        if (result.ok){
-          result.text().then(x => {                    
-            error = false;
-            setCode(x);
-            runScript(x);
-          });
-        } else {
-          error = true;
-        }        
-      })
-    .catch((error) => console.error(error));
-  }  
-  else {
-    setPillScript(scriptLocations[scriptIndex]);
-  }
+  fetch(`${scriptLocations[scriptIndex]}index.js`)
+  .then(
+    (result) => {
+      if (result.ok){
+        result.text().then(x => {                    
+          error = false;
+          setCode(x);
+          runScript(x);
+        });
+      } else {
+        error = true;
+      }        
+    })
+  .catch((error) => console.error(error));
+
+  fetch(`${scriptLocations[scriptIndex]}Readme.md`)
+  .then(
+    (result) => {
+      if (result.ok){
+        result.text().then(x => {                    
+          mdError = false;
+
+          const mdText: string = x.split('---').pop();
+
+          setMarkdown(mdText);          
+        });
+      } else {
+        mdError = true;
+      }        
+    })
+  .catch((error) => console.error(error));
+
 
   function runScript(scriptCode: string){    
     externalArray.length = 0;
@@ -109,6 +124,15 @@ export default function PillRunner() {
           </a>
         </div>
       </div>
+      {mdError ?
+        <div>
+          An error has occurred retrieving the markdown. This may not have been provided.
+        </div>
+        :
+        <div>
+          <Markdown>{markdown}</Markdown>
+        </div>
+      }
       {error ? 
         <div className={styles.center}>
           <span>
