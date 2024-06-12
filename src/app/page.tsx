@@ -1,47 +1,95 @@
 'use client'
 
-import Script from 'next/script';
 import Image from "next/image";
 import { useState } from 'react';
 import styles from "./page.module.css";
 
-const scriptLocation = "./pills/arbitraryconsolelog.js";
-
+const scriptLocations = ["./pills/arbitraryconsolelog.js"
+  ,"./pills/Array.prototype.every/index.js"
+  ,"./pills/async-await-iterations/index.js"
+  ,"./pills/check-conditions/index.js"
+  ,"./pills/check-variables-with-and-operator/index.js"
+  ,"./pills/clone-objects/index.js"
+  ,"./pills/compose/index.js"
+  ,"./pills/console-explained/index.js"
+  ,"./pills/currying/index.js"
+  ,"./pills/dedupe-arrays/index.js"
+  ,"./pills/DefaultValues/index.js"
+  ,"./pills/falsy-values/index.js"
+  ,"./pills/in-operator/index.js"
+  ,"./pills/map/index.js"
+  ,"./pills/merging-arrays/index.js"
+  ,"./pills/prevent-prototype-pollution/index.js"
+  ,"./pills/reduce/index.js"
+  ,"./pills/regular-expressions/index.js"
+  ,"./pills/replaceAll/index.js"
+  ,"./pills/semicolon-usage/index.js"
+  ,"./pills/short-circuit-conditionals/index.js"
+  ,"./pills/shuffle-array-elements/index.js"
+  ,"./pills/using-!!operator/index.js"  
+];
+const externalArray: string[] = [];
+let scriptHasRun = false;
+let error = false;
 export default function PillRunner() {
   const [code, setCode] = useState<string>('');
-  const [result, setResult] = useState<string[]>([]);
+  const [result, setResult] = useState<string[]>([]);  
   const [pillScript, setPillScript] = useState<string>('');  
+  const [scriptIndex, setScriptIndex] = useState<number>(0);
   
-  
-  if (pillScript){
+  if (pillScript == scriptLocations[scriptIndex]){
     fetch(pillScript)
     .then(
-      (result) => 
-        result.text().then(x => setCode(x)))
+      (result) => {
+        if (result.ok){
+          result.text().then(x => {                    
+            error = false;
+            setCode(x);
+            runScript(x);
+          });
+        } else {
+          error = true;
+        }        
+      })
     .catch((error) => console.error(error));
   }  
   else {
-    setPillScript(scriptLocation);
+    setPillScript(scriptLocations[scriptIndex]);
   }
+
+  function runScript(scriptCode: string){    
+    externalArray.length = 0;
+    if (!scriptHasRun){
+      scriptHasRun = true;
+      setResult([]);        
+      setTimeout(() => eval(scriptCode), 1000);    
+    }    
+  }  
 
   console.log = (...args) => {
     let logStatement = ''
     args.forEach(arg => {
       logStatement += `${arg},`;
     });    
-
-    setResult([...result, logStatement]);    
-    console.warn(logStatement);    
-    console.warn(result);
+    
+    externalArray.push(logStatement);
+    setResult([...externalArray]);        
+    console.info(...args);
   };  
 
   return (
     <main className={styles.main}>
-      <button onClick={(e) => {          
-          
-          setPillScript("");
-          setPillScript(scriptLocation);
-          }}>Result</button>
+      <button onClick={(e) => {     
+          let index = scriptIndex;        
+          if (scriptIndex < scriptLocations.length - 1){
+            index ++;
+          } else {
+            index = 0;
+          }
+          console.info(`${index} index of scripts`);
+          scriptHasRun = false;
+          setScriptIndex(index);               
+          }}>Result</button>  
       <div className={styles.description}>
         <div>
           <a
@@ -50,8 +98,9 @@ export default function PillRunner() {
             rel="noopener noreferrer"
           >            
             <Image
+              unoptimized
               src="/logo-2023-animated@1x.webp"
-              alt="Vercel Logo"
+              alt="One Beyond Logo"
               className={styles.vercelLogo}
               width={210}
               height={82}
@@ -60,72 +109,30 @@ export default function PillRunner() {
           </a>
         </div>
       </div>
-      <div className={styles.center}>
-        <pre>{code}</pre>
-        <Script src={scriptLocation} strategy="lazyOnload" />
-      </div>
-      
-      
-      <div className={styles.center}>
-        
-        <div>        
-        {result.map((val: string, index: number) => (
+      {error ? 
+        <div className={styles.center}>
+          <span>
+            An error has occurred retrieving the pill script. This may not have been provided.
+          </span>
+        </div>
+       : 
+        <div className={styles.center}>
+          <pre>{code}</pre>        
+        </div>      
+        }            
+        <div>   
+        <div className={styles.center}>
+            
+          <div>
+          {result.map((val: string, index: number) => (
             <p key={`val-${index}`}>{val}</p>
-        ))}                
+          ))}                        
+          </div>  
+        
         </div>                
       </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>      
+      
     </main>
   );
 }
