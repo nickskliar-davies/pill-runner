@@ -7,6 +7,19 @@
   min-height: 100vh;
 }
 
+.main button {
+  padding: 10px;
+  background-color: aquamarine;
+  cursor: pointer;  
+}
+
+.main button::hover {
+  
+  background: rgba(var(--card-rgb), 0.1);
+  border: 1px solid rgba(var(--card-border-rgb), 0.15);
+  
+}
+
 .description {
   display: inherit;
   justify-content: inherit;
@@ -64,6 +77,19 @@
   margin-bottom: 0.7rem;
 }
 
+.markdown {
+  background-color: aliceblue;
+  padding: 20px;
+  flex: 50%;
+}
+
+.codeline {
+  display: block;
+  background: black;
+  color: chartreuse;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 .card p {
   margin: 0;
   opacity: 0.6;
@@ -76,19 +102,12 @@
 .center {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: top;
   position: relative;
   padding: 4rem 0;
 }
 
-.center p {
-  display: block;
-  background: black;
-  color: chartreuse;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-.center pre {
+.center pre {  
   background: white;
   color: black;
   padding: 10px;

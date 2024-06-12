@@ -30,3 +30,5 @@ console.log('\nMethod 4:');
 const newArray1 = [1, 2, 3];
 console.log(method4(newArray1, array2));
 console.log(`Non mutated! [ ${newArray1} ]`);
+
+alert('POTATO!!!');

@@ -84,6 +84,7 @@ let pizzas = order.reduce((acc, pizza) => {
 Now our `pizzas` variable is an object, with the property being the name of the pizza
 with the corresponding value which is the quantity
 
+
 ## Browser compatibility 🔌
 
 |        | ✅     | ✅   | ✅      | ✅       | ✅    | ✅     |

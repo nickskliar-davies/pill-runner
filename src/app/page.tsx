@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from 'react';
 import styles from "./page.module.css";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
 const scriptLocations = ["./pills/Array.prototype.every/"
   ,"./pills/async-await-iterations/"
@@ -60,8 +62,10 @@ export default function PillRunner() {
       if (result.ok){
         result.text().then(x => {                    
           mdError = false;
-
-          const mdText: string = x.split('---').pop();
+          const mdList = x.split('---');
+          mdList.shift();
+          mdList.shift();
+          const mdText = mdList.join('---');
 
           setMarkdown(mdText);          
         });
@@ -76,8 +80,8 @@ export default function PillRunner() {
     externalArray.length = 0;
     if (!scriptHasRun){
       scriptHasRun = true;
-      setResult([]);        
-      setTimeout(() => eval(scriptCode), 1000);    
+      setResult([]);   
+      eval(scriptCode)           
     }    
   }  
 
@@ -104,7 +108,7 @@ export default function PillRunner() {
           console.info(`${index} index of scripts`);
           scriptHasRun = false;
           setScriptIndex(index);               
-          }}>Result</button>  
+          }}>Next Pill</button>  
       <div className={styles.description}>
         <div>
           <a
@@ -124,37 +128,40 @@ export default function PillRunner() {
           </a>
         </div>
       </div>
-      {mdError ?
-        <div>
-          An error has occurred retrieving the markdown. This may not have been provided.
-        </div>
-        :
-        <div>
-          <Markdown>{markdown}</Markdown>
-        </div>
-      }
-      {error ? 
-        <div className={styles.center}>
-          <span>
-            An error has occurred retrieving the pill script. This may not have been provided.
-          </span>
-        </div>
-       : 
-        <div className={styles.center}>
-          <pre>{code}</pre>        
-        </div>      
-        }            
-        <div>   
-        <div className={styles.center}>
-            
+      <div className={styles.center}>
+        <div className={styles.markdown}>
+        {mdError ?
           <div>
-          {result.map((val: string, index: number) => (
-            <p key={`val-${index}`}>{val}</p>
-          ))}                        
-          </div>  
+            An error has occurred retrieving the markdown. This may not have been provided.
+          </div>
+          :
+          <div>
+            <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
+          </div>
+        } 
+        </div>
+        <div>
+              
+          {error ?         
+            <span>
+              An error has occurred retrieving the pill script. This may not have been provided.
+            </span>        
+          : 
+            <SyntaxHighlighter language="javascript">
+              {code}
+            </SyntaxHighlighter>                          
+          }    
         
-        </div>                
+            
+        <div>
+          {result.map((val: string, index: number) => (
+            <p className={styles.codeline} key={`val-${index}`}>{val}</p>
+          ))}                        
+        </div>   
+        </div>
       </div>
+                    
+      
 
       
     </main>
