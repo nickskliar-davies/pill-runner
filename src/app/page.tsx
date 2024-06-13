@@ -56,7 +56,7 @@ export default function PillRunner() {
     })
   .catch((error) => console.error(error));
 
-  fetch(`${scriptLocations[scriptIndex]}Readme.md`)
+  fetch(`${scriptLocations[scriptIndex]}README.md`)
   .then(
     (result) => {
       if (result.ok){
