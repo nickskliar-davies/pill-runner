@@ -33,8 +33,6 @@ const scriptLocations = ["./pills/Array.prototype.every/"
 ];
 const externalArray: string[] = [];
 let scriptHasRun = false;
-let error = false;
-let mdError = false;
 
 let lastFetched = '';
 export default function PillRunner() {
