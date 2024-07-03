@@ -7,30 +7,8 @@ import styles from "./page.module.css";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { scriptLocations } from "./consts";
 
-const scriptLocations = ["./pills/Array.prototype.every/"
-  ,"./pills/async-await-iterations/"
-  ,"./pills/check-conditions/"
-  ,"./pills/check-variables-with-and-operator/"
-  ,"./pills/clone-objects/"
-  ,"./pills/compose/"
-  ,"./pills/console-explained/"
-  ,"./pills/currying/"
-  ,"./pills/dedupe-arrays/"
-  ,"./pills/DefaultValues/"
-  ,"./pills/falsy-values/"
-  ,"./pills/in-operator/"
-  ,"./pills/map/"
-  ,"./pills/merging-arrays/"
-  ,"./pills/prevent-prototype-pollution/"
-  ,"./pills/reduce/"
-  ,"./pills/regular-expressions/"
-  ,"./pills/replaceAll/"
-  ,"./pills/semicolon-usage/"
-  ,"./pills/short-circuit-conditionals/"
-  ,"./pills/shuffle-array-elements/"
-  ,"./pills/using-!!operator/"  
-];
 const externalArray: string[] = [];
 let scriptHasRun = false;
 
@@ -86,8 +64,7 @@ export default function PillRunner() {
       setMdError(true);
     });
     lastFetched = `${scriptLocations[scriptIndex]}`;
-  }
-  
+  }  
 
   function runScript(scriptCode: string){    
     externalArray.length = 0;
