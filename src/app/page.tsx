@@ -79,9 +79,9 @@ export default function PillRunner() {
   };  
 
   if (!timerStart){
+    // Allows for console capturing after the fact for async operations.
     timerStart = true;
-    setInterval(() => {
-      console.info(...externalArray);
+    setInterval(() => {      
       setResult([...externalArray]);
     }, 1000);
   }
