@@ -9,15 +9,18 @@
 
 .main button {
   padding: 10px;
-  background-color: aquamarine;
+  background-color: transparent;
+  border: none;
   cursor: pointer;  
 }
 
-.main button::hover {
-  
+.main button:hover {  
   background: rgba(var(--card-rgb), 0.1);
-  border: 1px solid rgba(var(--card-border-rgb), 0.15);
-  
+  border: 1px solid rgba(var(--card-border-rgb), 0.15);    
+}
+
+.main ul {
+  list-style-type: none;
 }
 
 .description {
@@ -77,10 +80,22 @@
   margin-bottom: 0.7rem;
 }
 
+.navbar {
+  background-color: bisque;
+  padding: 20px;
+  flex: 25%;
+  min-width: 20%;
+  max-width: 20%;
+  align-self: self-start;
+}
+
 .markdown {
   background-color: aliceblue;
   padding: 20px;
   flex: 50%;
+  max-width: 50%;
+  min-width: 40%;
+  overflow: scroll;  
 }
 
 .codeline {
@@ -101,10 +116,10 @@
 
 .center {
   display: flex;
-  justify-content: center;
-  align-items: top;
+  justify-content: center;  
   position: relative;
   padding: 4rem 0;
+  max-width: 90%;
 }
 
 .center pre {  
@@ -117,12 +132,7 @@
   padding: 20px;
 }
 
-.center::before {
-  border-radius: 50%;
-  width: 480px;
-  height: 360px;
-  margin-left: -400px;
-}
+
 
 .center::after {
   background: var(--primary-glow);
@@ -131,14 +141,7 @@
   z-index: -1;
 }
 
-.center::before,
-.center::after {
-  content: "";
-  left: 50%;
-  position: absolute;
-  filter: blur(45px);
-  transform: translateZ(0);
-}
+
 
 .logo {
   position: relative;
@@ -186,10 +189,7 @@
     padding: 8rem 0 6rem;
   }
 
-  .center::before {
-    transform: none;
-    height: 300px;
-  }
+
 
   .description {
     font-size: 0.8rem;
