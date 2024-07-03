@@ -16,8 +16,7 @@ let lastFetched = '';
 export default function PillRunner() {
   const [code, setCode] = useState<string>('');
   const [markdown, setMarkdown] = useState<string>('');
-  const [result, setResult] = useState<string[]>([]);    
-  const [scriptIndex, setScriptIndex] = useState<number>(0);
+  const [result, setResult] = useState<string[]>([]);      
   const [error, setError] = useState(false);
   const [mdError, setMdError] = useState(false);
   const [activeScript, setActiveScript] = useState(scriptLocationExtended[0]);    
