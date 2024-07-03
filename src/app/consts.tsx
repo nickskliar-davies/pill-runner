@@ -1,28 +1,3 @@
-export const scriptLocations = ["./pills/Array.prototype.every/"
-    ,"./pills/async-await-iterations/"
-    ,"./pills/check-conditions/"
-    ,"./pills/check-variables-with-and-operator/"
-    ,"./pills/clone-objects/"
-    ,"./pills/compose/"
-    ,"./pills/console-explained/"
-    ,"./pills/currying/"
-    ,"./pills/dedupe-arrays/"
-    ,"./pills/DefaultValues/"
-    ,"./pills/falsy-values/"
-    ,"./pills/in-operator/"
-    ,"./pills/map/"
-    ,"./pills/merging-arrays/"
-    ,"./pills/prevent-prototype-pollution/"
-    ,"./pills/reduce/"
-    ,"./pills/regular-expressions/"
-    ,"./pills/replaceAll/"
-    ,"./pills/semicolon-usage/"
-    ,"./pills/short-circuit-conditionals/"
-    ,"./pills/shuffle-array-elements/"
-    ,"./pills/using-!!operator/"  
-  ];
-
-
 export const scriptLocationExtended = [
   {
     name: 'Array of Consecutive Numbers',
